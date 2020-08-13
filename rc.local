@@ -1,0 +1,1 @@
+hdparm -B 96 -S 180 /dev/sda1

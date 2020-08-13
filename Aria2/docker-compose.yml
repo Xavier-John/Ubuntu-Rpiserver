@@ -1,0 +1,27 @@
+version: "2.1"
+services:
+  aria2Backend:
+    image: p3terx/aria2-pro
+    container_name: aria2Backend
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ='Asia/Kolkata'
+      - RPC_PORT=6800
+      - LISTEN_PORT=6888
+      - RPC_SECRET=ubroot
+    volumes:
+      - /mnt/Media/Docker_ContainerData/Aria2:/config
+      - /mnt/Media/share/Downloads/:/downloads
+    ports:
+      - 6888:6888
+      - 6888:6888/udp
+      - 6800:6800
+    restart: unless-stopped
+
+  aria2UI:
+    image: p3terx/ariang
+    container_name: aria2UI
+    ports:
+      - 6880:6880
+    restart: unless-stopped

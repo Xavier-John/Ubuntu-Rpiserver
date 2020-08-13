@@ -1,0 +1,124 @@
+version: "2.1"
+services:
+    aria2Backend:
+        image: p3terx/aria2-pro
+        container_name: aria2Backend
+        environment:
+        - PUID=1000
+        - PGID=1000
+        - TZ='Asia/Kolkata'
+        - RPC_PORT=6800
+        - LISTEN_PORT=6888
+        - RPC_SECRET=ubroot
+        volumes:
+        - /home/ubuntu/Docker_ContainerData/Aria2:/config
+        - /mnt/Media/share/Downloads/:/downloads
+        ports:
+        - 6888:6888
+        - 6888:6888/udp
+        - 6800:6800
+        restart: unless-stopped
+
+    aria2UI:
+        image: p3terx/ariang
+        container_name: aria2UI
+        ports:
+        - 6880:6880
+        restart: unless-stopped
+
+    transmission:
+        image: linuxserver/transmission
+        container_name: transmission
+        environment:
+          - PUID=1000
+          - PGID=1000
+          - TZ='Asia/Kolkata'
+          - TRANSMISSION_WEB_HOME=/combustion-release/ #optional
+          - USER=doc #optional
+          - PASS=doc123 #optional
+        volumes:
+          - /home/ubuntu/Docker_ContainerData/Transmission/config:/config
+          - /mnt/Media/share/Downloads/:/downloads
+          - /home/ubuntu/Docker_ContainerData/Transmission/watch:/watch
+        ports:
+          - 9091:9091
+          - 51413:51413
+          - 51413:51413/udp
+        restart: unless-stopped
+
+    plex:
+        image: linuxserver/plex
+        container_name: plex
+        network_mode: host
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - VERSION=docker
+            - PLEX_CLAIM=claim-ZShpe--SnWeKYnq5xQ1p
+        volumes:
+            - /home/ubuntu/Docker_ContainerData/Plex/:/config
+            - /mnt/Media/share/TVShows/:/tv
+            - /mnt/Media/share/Movies/:/movies
+        restart: unless-stopped
+     
+    pihole:
+        container_name: pihole
+        image: pihole/pihole:latest
+        ports:
+        - "53:53/tcp"
+        - "53:53/udp"
+        - "67:67/udp"
+        - "90:80/tcp"
+        - "443:443/tcp"
+        environment:
+        - TZ='Asia/Kolkata'
+        - WEBPASSWORD='ubroot'
+        # Volumes store your data between container upgrades
+        volumes:
+        - '/home/ubuntu/Docker_ContainerData/pihole/:/etc/pihole/'
+        - '/home/ubuntu/Docker_ContainerData/pihole/dnsmasq.d/:/etc/dnsmasq.d/'
+        dns:
+        - 127.0.0.1
+        - 1.1.1.1
+        # Recommended but not required (DHCP needs NET_ADMIN)
+        #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+        cap_add:
+        - NET_ADMIN
+        restart: unless-stopped
+
+    portainer:
+        container_name: portainer
+        image: portainer/portainer
+        ports: 
+        - "9000:9000/tcp"
+        volumes: 
+        - "/var/run/docker.sock:/var/run/docker.sock"
+        - "/home/ubuntu/Docker_ContainerData/Portainer/:/data"
+        restart: unless-stopped
+    Nas:
+        container_name: Nas
+        image: dperson/samba
+        environment:
+            TZ: 'Asia/Kolkata'
+            USERID: 1000
+            GROUPID: 1000
+            NMBD: 'true'
+        networks:
+            - default
+        ports:
+            - "137:137/udp"
+            - "138:138/udp"
+            - "139:139/tcp"
+            - "445:445/tcp"
+        read_only: false
+        tmpfs:
+            - /tmp
+        restart: unless-stopped
+        stdin_open: false
+        tty: false
+        volumes:
+            - /mnt/Media/share/:/mount:z
+            - /mnt/TimeMachine/:/TimeMachine:z
+            - /mnt/Media/shareData/:/Data:z
+        command: '-s "NAS;/mount;yes;no;no;nandu,nandujagdish" -s "Airport;/TimeMachine;yes;no;no;nandu,nandujagdish" -s "Data;/Data;yes;no;no;nandujagdish" -u "nandujagdish;ubroot" -u "nandu;nandu"  -p'
+    
