@@ -1,0 +1,12 @@
+# /etc/systemd/system/hdparm.service
+[Unit]
+Description=Silence HD
+After=suspend.target
+
+[Service]
+Type=oneshot
+# Disable automatic head parking for the main disk
+ExecStart=/sbin/hdparm -B 96 -S 180 /dev/disk/by-uuid/bf00fe0d-9699-450d-9845-1c902886cac4
+
+[Install]
+WantedBy=suspend.target basic.target
