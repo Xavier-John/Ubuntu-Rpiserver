@@ -121,4 +121,12 @@ services:
             - /mnt/TimeMachine/:/TimeMachine:z
             - /mnt/Media/shareData/:/Data:z
         command: '-s "NAS;/mount;yes;no;no;nandu,nandujagdish" -s "Airport;/TimeMachine;yes;no;no;nandu,nandujagdish" -s "Data;/Data;yes;no;no;nandujagdish" -u "nandujagdish;ubroot" -u "nandu;nandu"  -p'
-    
+    Watchtower:
+        container_name: Watchtower
+        image: containrrr/watchtower
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+            WATCHTOWER_CLEANUP: 'true'
+            WATCHTOWER_POLL_INTERVAL: 3000
+      
