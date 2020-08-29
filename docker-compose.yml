@@ -191,7 +191,49 @@ services:
         dns:
             - 127.0.0.1
             - 1.1.1.1
-        
+    radarr:
+        image: linuxserver/radarr
+        container_name: radarr
+        environment:
+          - PUID=1000
+          - PGID=1000
+          - TZ='Asia/Kolkata'
+          
+        volumes:
+          - /home/ubuntu/Docker_ContainerData/radarr:/config
+          - /mnt/Media/share/Movies/:/movies
+          - /mnt/Media/share/Downloads/:/downloads
+        ports:
+          - 7878:7878
+        restart: unless-stopped
+    sonarr:
+        image: linuxserver/sonarr
+        container_name: sonarr
+        environment:
+          - PUID=1000
+          - PGID=1000
+          - TZ='Asia/Kolkata'
+        volumes:
+          - /home/ubuntu/Docker_ContainerData/sonarr:/config
+          -  /mnt/Media/share/TVShows/:/tv
+          - /mnt/Media/share/Downloads/:/downloads
+        ports:
+          - 8989:8989
+        restart: unless-stopped
+    jackett:
+        image: linuxserver/jackett
+        container_name: jackett
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ='Asia/Kolkata'
+            - AUTO_UPDATE=true #optional
+        volumes:
+            - /home/ubuntu/Docker_ContainerData/jackett:/config
+            - /mnt/Media/share/Downloads/:/downloads
+        ports:
+            - 9117:9117
+        restart: unless-stopped
       
 
 #    reverse-proxy:
