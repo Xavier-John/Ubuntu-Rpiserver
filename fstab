@@ -1,5 +1,4 @@
 LABEL=writable  /        ext4   defaults        0 0
 LABEL=system-boot       /boot/firmware  vfat    defaults        0       1
-UUID=bf00fe0d-9699-450d-9845-1c902886cac4  /mnt/Media/  ext4  defaults  0  2
+UUID=c336fd79-dfe7-4bb2-bd16-2d3ec0b9f67c  /mnt/Media/  ext4  defaults  0  2
 /mnt/Media/TimeMachine/timeMachine.vhd  /mnt/TimeMachine/  ext4    defaults        0  2
-/home/ubuntu/Docker/dockerImages.vhd /mnt/DockerImages/ ext4 defaults 0 2

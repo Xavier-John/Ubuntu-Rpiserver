@@ -6,7 +6,7 @@ After=suspend.target
 [Service]
 Type=oneshot
 # Disable automatic head parking for the main disk
-ExecStart=/sbin/hdparm -B 127 -S 180 /dev/disk/by-uuid/bf00fe0d-9699-450d-9845-1c902886cac4
+ExecStart=/sbin/hdparm -B 127 -S 180 /dev/disk/by-uuid/c336fd79-dfe7-4bb2-bd16-2d3ec0b9f67c
 
 [Install]
 WantedBy=suspend.target basic.target

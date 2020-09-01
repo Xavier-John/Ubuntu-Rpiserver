@@ -4,14 +4,14 @@ services:
         image: p3terx/aria2-pro
         container_name: aria2Backend
         environment:
-        - PUID=1000
-        - PGID=1000
+        - PUID=1001
+        - PGID=1001
         - TZ='Asia/Kolkata'
         - RPC_PORT=6800
         - LISTEN_PORT=6888
         - RPC_SECRET=ubroot
         volumes:
-        - /home/ubuntu/Docker_ContainerData/Aria2:/config
+        - /home/poweruser/Docker_ContainerData/Aria2:/config
         - /mnt/Media/share/Downloads/:/downloads
         ports:
         - 6888:6888
@@ -38,16 +38,16 @@ services:
         image: linuxserver/transmission
         container_name: transmission
         environment:
-          - PUID=1000
-          - PGID=1000
+          - PUID=1001
+          - PGID=1001
           - TZ='Asia/Kolkata'
           - TRANSMISSION_WEB_HOME=/combustion-release/ #optional
           - USER=doc #optional
           - PASS=doc123 #optional
         volumes:
-          - /home/ubuntu/Docker_ContainerData/Transmission/config:/config
+          - /home/poweruser/Docker_ContainerData/Transmission/config:/config
           - /mnt/Media/share/Downloads/:/downloads
-          - /home/ubuntu/Docker_ContainerData/Transmission/watch:/watch
+          - /home/poweruser/Docker_ContainerData/Transmission/watch:/watch
         ports:
           - 9091:9091
           - 51413:51413
@@ -66,12 +66,12 @@ services:
         container_name: plex
         network_mode: host
         environment:
-            - PUID=1000
-            - PGID=1000
+            - PUID=1001
+            - PGID=1001
             - VERSION=docker
             - PLEX_CLAIM=claim-ZShpe--SnWeKYnq5xQ1p
         volumes:
-            - /home/ubuntu/Docker_ContainerData/Plex/:/config
+            - /home/poweruser/Docker_ContainerData/Plex/:/config
             - /mnt/Media/share/TVShows/:/tv
             - /mnt/Media/share/Movies/:/movies
         restart: unless-stopped
@@ -94,8 +94,8 @@ services:
         - WEBPASSWORD='ubroot'
         # Volumes store your data between container upgrades
         volumes:
-        - '/home/ubuntu/Docker_ContainerData/pihole/:/etc/pihole/'
-        - '/home/ubuntu/Docker_ContainerData/pihole/dnsmasq.d/:/etc/dnsmasq.d/'
+        - '/home/poweruser/Docker_ContainerData/pihole/:/etc/pihole/'
+        - '/home/poweruser/Docker_ContainerData/pihole/dnsmasq.d/:/etc/dnsmasq.d/'
         dns:
         - 127.0.0.1
         - 1.1.1.1
@@ -119,7 +119,7 @@ services:
         - "9000:9000/tcp"
         volumes: 
         - "/var/run/docker.sock:/var/run/docker.sock"
-        - "/home/ubuntu/Docker_ContainerData/Portainer/:/data"
+        - "/home/poweruser/Docker_ContainerData/Portainer/:/data"
         restart: unless-stopped
         labels:
             # required when using --providers.docker.exposedbydefault=false
@@ -133,8 +133,8 @@ services:
         image: dperson/samba
         environment:
             TZ: 'Asia/Kolkata'
-            USERID: 1000
-            GROUPID: 1000
+            USERID: 1001
+            GROUPID: 1001
             NMBD: 'true'
         networks:
             - default
@@ -195,12 +195,12 @@ services:
         image: linuxserver/radarr
         container_name: radarr
         environment:
-          - PUID=1000
-          - PGID=1000
+          - PUID=1001
+          - PGID=1001
           - TZ='Asia/Kolkata'
           
         volumes:
-          - /home/ubuntu/Docker_ContainerData/radarr:/config
+          - /home/poweruser/Docker_ContainerData/radarr:/config
           - /mnt/Media/share/Movies/:/movies
           - /mnt/Media/share/Downloads/:/downloads
         ports:
@@ -210,11 +210,11 @@ services:
         image: linuxserver/sonarr
         container_name: sonarr
         environment:
-          - PUID=1000
-          - PGID=1000
+          - PUID=1001
+          - PGID=1001
           - TZ='Asia/Kolkata'
         volumes:
-          - /home/ubuntu/Docker_ContainerData/sonarr:/config
+          - /home/poweruser/Docker_ContainerData/sonarr:/config
           -  /mnt/Media/share/TVShows/:/tv
           - /mnt/Media/share/Downloads/:/downloads
         ports:
@@ -224,12 +224,12 @@ services:
         image: linuxserver/jackett
         container_name: jackett
         environment:
-            - PUID=1000
-            - PGID=1000
+            - PUID=1001
+            - PGID=1001
             - TZ='Asia/Kolkata'
             - AUTO_UPDATE=true #optional
         volumes:
-            - /home/ubuntu/Docker_ContainerData/jackett:/config
+            - /home/poweruser/Docker_ContainerData/jackett:/config
             - /mnt/Media/share/Downloads/:/downloads
         ports:
             - 9117:9117
