@@ -202,7 +202,7 @@ services:
         volumes:
           - /home/poweruser/Docker_ContainerData/radarr:/config
           - /mnt/Media/share/Movies/:/movies
-          - /mnt/Media/share/Downloads/complete/:/downloads
+          - /mnt/Media/share/Downloads/:/downloads
         ports:
           - 7878:7878
         restart: unless-stopped
@@ -223,7 +223,7 @@ services:
         volumes:
           - /home/poweruser/Docker_ContainerData/sonarr:/config
           -  /mnt/Media/share/TVShows/:/tv
-          - /mnt/Media/share/Downloads/complete/:/downloads
+          - /mnt/Media/share/Downloads/:/downloads
         ports:
           - 8989:8989
         restart: unless-stopped
@@ -244,7 +244,7 @@ services:
             - AUTO_UPDATE=true #optional
         volumes:
             - /home/poweruser/Docker_ContainerData/jackett:/config
-            - /mnt/Media/share/Downloads/complete/:/downloads
+            - /mnt/Media/share/Downloads/:/downloads
         ports:
             - 9117:9117
         restart: unless-stopped
