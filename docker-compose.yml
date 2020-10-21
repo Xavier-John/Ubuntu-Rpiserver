@@ -152,8 +152,8 @@ services:
         volumes:
             - /mnt/Media/share/:/mount:z
             - /mnt/TimeMachine/:/TimeMachine:z
-            - /mnt/Media/shareData/:/Data:z
-        command: '-g "fruit:aapl = yes" -g "vfs objects = catia fruit streams_xattr" -g "fruit:model = MacSamba" -g "fruit:time machine = yes" -g "durable handles = yes" -g "kernel oplocks = no" -g "kernel share modes = no" -g "posix locking = no" -g "fruit:advertise_fullsync = true" -g "smb2 leases = yes" -s "NAS;/mount;yes;no;no;nandu,nandujagdish" -s "Airport;/TimeMachine;yes;no;no;nandu,nandujagdish" -s "Data;/Data;yes;no;no;nandujagdish" -u "nandujagdish;ubroot" -u "nandu;nandu"  -p'
+            - /mnt/Media/:/Data:z
+        command: '-g "fruit:aapl = yes" -g "vfs objects = catia fruit streams_xattr" -g "fruit:model = MacSamba" -g "fruit:time machine = yes" -g "durable handles = yes" -g "kernel oplocks = no" -g "kernel share modes = no" -g "posix locking = no" -g "fruit:advertise_fullsync = true" -g "smb2 leases = yes" -s "NAS;/mount;yes;no;no;nandu,nandujagdish" -s "Airport;/TimeMachine;yes;no;no;nandu,nandujagdish" -s "Data;/Data;no;no;no;nandujagdish" -u "nandujagdish;ubroot" -u "nandu;nandu"  -p'
     Watchtower:
         container_name: Watchtower
         image: containrrr/watchtower
@@ -255,36 +255,62 @@ services:
             - "traefik.http.routers.jackett.entrypoints=http"
             # - "traefik.docker.network=discovery"
             - "traefik.http.services.jackett.loadbalancer.server.port=9117"
-    jellyfin:
-        image: linuxserver/jellyfin
-        container_name: jellyfin
-        environment:
-          - PUID=1001
-          - PGID=1001
-          - TZ=Asia/Kolkata
-        volumes:
-          - /home/poweruser/Docker_ContainerData/jellyfinn:/config
-          - /mnt/Media/share/TVShows/:/data/tvshows
-          - /mnt/Media/share/Movies:/data/movies
-          - /opt/vc/lib:/opt/vc/lib #optional
+    # chrome:
+    #     image: ich777/chrome
+    #     container_name: chrome
+    #     environment: 
+    #         - CUSTOM_RES_W=1280
+    #         - CUSTOM_RES_H=800
+    #         - UID=1001
+    #         - GID=1001
+    #     volumes: 
+    #         - /home/poweruser/Docker_ContainerData/chrome:/chrome
+    #         - /mnt/Media/share/Downloads/:/chrome/Downloads
+    #     ports:
+    #         - 9090:8080
+    firefox:
+        image: ich777/firefox
+        container_name: firefox
+        environment: 
+            - CUSTOM_RES_W=1280
+            - CUSTOM_RES_H=800
+            - UID=1001
+            - GID=1001
+        volumes: 
+            - /home/poweruser/Docker_ContainerData/firefox:/firefox
+            - /mnt/Media/share/Downloads/:/firefox/Downloads
         ports:
-          - 8096:8096
-          - 8920:8920 #optional
-        devices:
-          #- /dev/dri:/dev/dri #optional
-          #- /dev/vcsm:/dev/vcsm #optional
-          - /dev/vchiq:/dev/vchiq #optional
-          - /dev/video10:/dev/video10 #optional
-          - /dev/video11:/dev/video11 #optional
-          - /dev/video12:/dev/video12 #optional
-        restart: unless-stopped
-        labels:
-            # required when using --providers.docker.exposedbydefault=false
-            - "traefik.enable=true"
-            - "traefik.http.routers.jellyfin.rule=Host(`jellyfin_home.com`)"
-            - "traefik.http.routers.jellyfin.entrypoints=http"
-            # - "traefik.docker.network=discovery"
-            - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+            - 9081:8080
+    # jellyfin:
+    #     image: linuxserver/jellyfin
+    #     container_name: jellyfin
+    #     environment:
+    #       - PUID=1001
+    #       - PGID=1001
+    #       - TZ=Asia/Kolkata
+    #     volumes:
+    #       - /home/poweruser/Docker_ContainerData/jellyfinn:/config
+    #       - /mnt/Media/share/TVShows/:/data/tvshows
+    #       - /mnt/Media/share/Movies:/data/movies
+    #       - /opt/vc/lib:/opt/vc/lib #optional
+    #     ports:
+    #       - 8096:8096
+    #       - 8920:8920 #optional
+    #     devices:
+    #       #- /dev/dri:/dev/dri #optional
+    #       #- /dev/vcsm:/dev/vcsm #optional
+    #       - /dev/vchiq:/dev/vchiq #optional
+    #       - /dev/video10:/dev/video10 #optional
+    #       - /dev/video11:/dev/video11 #optional
+    #       - /dev/video12:/dev/video12 #optional
+    #     restart: unless-stopped
+    #     labels:
+    #         # required when using --providers.docker.exposedbydefault=false
+    #         - "traefik.enable=true"
+    #         - "traefik.http.routers.jellyfin.rule=Host(`jellyfin_home.com`)"
+    #         - "traefik.http.routers.jellyfin.entrypoints=http"
+    #         # - "traefik.docker.network=discovery"
+    #         - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
             
 
 #    reverse-proxy:
