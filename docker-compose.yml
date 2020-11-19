@@ -41,7 +41,7 @@ services:
           - PUID=1001
           - PGID=1001
           - TZ='Asia/Kolkata'
-          - TRANSMISSION_WEB_HOME=/combustion-release/ #optional
+          - TRANSMISSION_WEB_HOME=/transmission-web-control/ #optional
           - USER=doc #optional
           - PASS=doc123 #optional
         volumes:
@@ -80,9 +80,9 @@ services:
         container_name: pihole
         image: pihole/pihole:latest
         ports:
-        - "53:53/tcp"
-        - "53:53/udp"
-        - "67:67/udp"
+        - "54:53/tcp"
+        - "54:53/udp"
+        - "69:67/udp"
         - "8053:80/tcp"
         # - "443:443/tcp"
         environment:
@@ -181,7 +181,7 @@ services:
             - "--log.level=DEBUG"
         ports:
             - "80:80"
-            - "443:443"
+            #- "443:443"
             - "8080:8080"
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -281,6 +281,43 @@ services:
             - /mnt/Media/share/Downloads/:/firefox/Downloads
         ports:
             - 9081:8080
+    # bazarr:
+    #     image: ghcr.io/linuxserver/bazarr
+    #     container_name: bazarr
+    #     environment:
+    #         - PUID=1001
+    #         - PGID=1001
+    #         - TZ='Asia/Kolkata'
+    #         - UMASK_SET=022 #optional
+    #     volumes:
+    #         - /home/poweruser/Docker_ContainerData/Bazarr/config:/config
+    #         - /mnt/Media/share/Movies/:/movies
+    #         - /mnt/Media/share/TVShows/:/tv
+    #     ports:
+    #         - 6767:6767
+    adgaurd:
+        image: adguard/adguardhome
+        container_name: adgaurd
+        environment: 
+            - USER_ID=1001
+            - GROUP_ID=1001
+        volumes: 
+            - /home/poweruser/Docker_ContainerData/adguard/data:/opt/adguardhome/work
+            - /home/poweruser/Docker_ContainerData/adguard/config:/opt/adguardhome/conf
+        ports: 
+            - "53:53/tcp"
+            - "53:53/udp"
+            - "67:67/udp"
+            #- "68:68/tcp"
+            #- "68:68/udp"
+            - "8007:80/tcp"
+            - "443:443/tcp"
+            - "853:853/tcp"
+            - "3000:3000/tcp"
+        restart: unless-stopped
+            
+
+             
     # jellyfin:
     #     image: linuxserver/jellyfin
     #     container_name: jellyfin
