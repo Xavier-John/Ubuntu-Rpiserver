@@ -76,13 +76,13 @@ services:
             - /mnt/Media/share/Movies/:/movies
         restart: always
      
-    # pihole:
+   # pihole:
     #     container_name: pihole
     #     image: pihole/pihole:latest
     #     ports:
-    #     - "54:53/tcp"
-    #     - "54:53/udp"
-    #     - "69:67/udp"
+    #     - "53:53/tcp"
+    #     - "53:53/udp"
+    #     - "67:67/udp"
     #     - "8053:80/tcp"
     #     # - "443:443/tcp"
     #     environment:
@@ -112,6 +112,7 @@ services:
     #         # - "traefik.docker.network=discovery"
     #         - "traefik.http.services.pihole.loadbalancer.server.port=80"
 
+            
     portainer:
         container_name: portainer
         image: portainer/portainer:latest
@@ -163,6 +164,28 @@ services:
             WATCHTOWER_CLEANUP: 'true'
             WATCHTOWER_POLL_INTERVAL: 3000
         restart: always
+        
+    adgaurd:
+        image: adguard/adguardhome:v0.105.2
+        container_name: adgaurd
+        environment: 
+            - USER_ID=1001
+            - GROUP_ID=1001
+        volumes: 
+            - /home/poweruser/Docker_ContainerData/adguard/data:/opt/adguardhome/work
+            - /home/poweruser/Docker_ContainerData/adguard/config:/opt/adguardhome/conf
+        ports: 
+            - "53:53/tcp"
+            - "53:53/udp"
+            - "67:67/udp"
+            # - "68:68/tcp"
+            # - "68:68/udp"
+            - "8007:80/tcp"
+            - "443:443/tcp"
+            - "853:853/tcp"
+            - "3000:3000/tcp"
+        restart: always
+        
     traefik:
         container_name: traefik
         domainname: homedomain.lan
@@ -295,60 +318,10 @@ services:
     #         - /mnt/Media/share/TVShows/:/tv
     #     ports:
     #         - 6767:6767
-    adgaurd:
-        image: adguard/adguardhome:latest
-        container_name: adgaurd
-        environment: 
-            - USER_ID=1001
-            - GROUP_ID=1001
-        volumes: 
-            - /home/poweruser/Docker_ContainerData/adguard/data:/opt/adguardhome/work
-            - /home/poweruser/Docker_ContainerData/adguard/config:/opt/adguardhome/conf
-        ports: 
-            - "53:53/tcp"
-            - "53:53/udp"
-            - "67:67/udp"
-            #- "68:68/tcp"
-            #- "68:68/udp"
-            - "8007:80/tcp"
-            - "443:443/tcp"
-            - "853:853/tcp"
-            - "3000:3000/tcp"
-        restart: always
-            
+
 
              
-    # jellyfin:
-    #     image: linuxserver/jellyfin
-    #     container_name: jellyfin
-    #     environment:
-    #       - PUID=1001
-    #       - PGID=1001
-    #       - TZ=Asia/Kolkata
-    #     volumes:
-    #       - /home/poweruser/Docker_ContainerData/jellyfinn:/config
-    #       - /mnt/Media/share/TVShows/:/data/tvshows
-    #       - /mnt/Media/share/Movies:/data/movies
-    #       - /opt/vc/lib:/opt/vc/lib #optional
-    #     ports:
-    #       - 8096:8096
-    #       - 8920:8920 #optional
-    #     devices:
-    #       #- /dev/dri:/dev/dri #optional
-    #       #- /dev/vcsm:/dev/vcsm #optional
-    #       - /dev/vchiq:/dev/vchiq #optional
-    #       - /dev/video10:/dev/video10 #optional
-    #       - /dev/video11:/dev/video11 #optional
-    #       - /dev/video12:/dev/video12 #optional
-    #     restart: always
-    #     labels:
-    #         # required when using --providers.docker.exposedbydefault=false
-    #         - "traefik.enable=true"
-    #         - "traefik.http.routers.jellyfin.rule=Host(`jellyfin_home.com`)"
-    #         - "traefik.http.routers.jellyfin.entrypoints=http"
-    #         # - "traefik.docker.network=discovery"
-    #         - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
-            
+
 
 #    reverse-proxy:
 #        # The official v2 Traefik docker image
