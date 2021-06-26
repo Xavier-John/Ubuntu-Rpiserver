@@ -1,0 +1,18 @@
+version: "2.1"
+services:
+  webtop:
+    image: nextcloud
+    container_name: nextCloud
+    # privileged: true #optional
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ='Asia/Kolkata'
+    volumes:
+      - //home/poweruser/Docker_ContainerData/nextCloud/nextcloud:/var/www/html
+      - //home/poweruser/Docker_ContainerData/nextCloud/apps:/var/www/html/custom_apps
+      - //home/poweruser/Docker_ContainerData/nextCloud/config:/var/www/html/config
+      - //home/poweruser/Docker_ContainerData/nextCloud/data:/var/www/html/data
+    ports:
+      - 3008:80
+    # shm_size: "1gb" #optional
