@@ -1,0 +1,16 @@
+    version: "2.1"
+    services:
+      webtop:
+        image: linuxserver/webtop:ubuntu-xfce-version-d9e0ebac
+        container_name: webtop
+        privileged: true #optional
+        environment:
+          - PUID=1001
+          - PGID=1001
+          - TZ='Asia/Kolkata'
+        volumes:
+          - //home/poweruser/Docker_ContainerData/ubuntuOpenBox:/config
+          - /var/run/docker.sock:/var/run/docker.sock #optional
+        ports:
+          - 3005:3000
+        shm_size: "1gb" #optional

@@ -1,0 +1,22 @@
+  version: "3.8"
+  services:
+    ubuntu:
+      image: dorowu/ubuntu-desktop-lxde-vnc:focal-arm64
+      container_name: ubuntulxde
+      privileged: true #optional
+      environment:
+        - PUID=1001
+        - PGID=1001
+        - TZ='Asia/Kolkata'
+        - USER=poweruser
+        - PASSWORD=ubroot 
+        - VNC_PASSWORD=ubroot
+        - RESOLUTION=1280x800
+      volumes:
+        - //home/poweruser/Docker_ContainerData/ubuntulxde:/home/poweruser 
+        - /dev/shm:/dev/shm
+        - /var/run/docker.sock:/var/run/docker.sock #optional
+      ports:
+        - 3006:80
+        - 3007:5900
+      # shm_size: "1gb" #optional
