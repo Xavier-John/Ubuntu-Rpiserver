@@ -1,18 +1,37 @@
 version: "2.1"
 services:
-  webtop:
+  mariadb:
+    image: mariadb
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    volumes:
+      - /home/poweruser/Docker_ContainerData/nextCloud/mariadb:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=ubroot
+      - MYSQL_PASSWORD=ubroot
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+
+  nextCloud:
     image: nextcloud
     container_name: nextCloud
-    # privileged: true #optional
+    links:
+      - mariadb
     environment:
       - PUID=1001
       - PGID=1001
       - TZ='Asia/Kolkata'
+      - MYSQL_PASSWORD=ubroot
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_HOST=mariadb
     volumes:
       - //home/poweruser/Docker_ContainerData/nextCloud/nextcloud:/var/www/html
       - //home/poweruser/Docker_ContainerData/nextCloud/apps:/var/www/html/custom_apps
       - //home/poweruser/Docker_ContainerData/nextCloud/config:/var/www/html/config
       - //home/poweruser/Docker_ContainerData/nextCloud/data:/var/www/html/data
+      - /mnt/Media/share/Photos:/var/www/html/photo
     ports:
       - 3008:80
     # shm_size: "1gb" #optional
+
+    
